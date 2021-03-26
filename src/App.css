@@ -176,3 +176,11 @@ a.socialIcon:hover,
   transition: all 0.8s;
   transition: all 0.8s
 }
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed grey;
+}

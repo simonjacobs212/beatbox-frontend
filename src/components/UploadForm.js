@@ -1,16 +1,59 @@
-import React from 'react'
-
+import React, {useState} from 'react'
+import { useHistory } from "react-router-dom";
 import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
 
-const UploadForm = () => {
+const tracksAPI = "http://localhost:3000/tracks"
 
-    const successCallBack = data => {
-        console.log(data)
+const UploadForm = ({ user, setTracks, tracks }) => {
+  const history = useHistory()
+  const [title, setTitle] = useState("")
+  const [artist, setArtist] = useState("")
+  const tempo = "140"
+
+  const [uploadedTrack, setUploadedTrack] = useState(false)
+
+  const successCallBack = data => {
+      setUploadedTrack(data.info.url)
+      console.log(uploadedTrack)
+  }
+
+  const failureCallBack = _ => {
+      console.log("You fucked up")
+  }
+
+  const addNewTrack = track => {
+    const updatedTracks = [...tracks, track]
+    setTracks(updatedTracks)
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const newTrack = {
+      user_id: user.id,
+      tempo: tempo,
+      key: "",
+      title: title,
+      artist: artist,
+      file_url: uploadedTrack,
     }
 
-    const failureCallBack = _ => {
-        console.log("You fucked up")
-    }
+    fetch(tracksAPI, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newTrack)
+    })
+    .then(r => r.json())
+    .then(track => {
+      addNewTrack(track)
+      setTitle("")
+      setArtist("")
+      setUploadedTrack(false)
+      history.push("/tracks")
+    })
+  }
 
 
   return (
@@ -59,6 +102,16 @@ const UploadForm = () => {
         // unique_filename={true} // setting it to false, you can tell Cloudinary not to attempt to make 
         // // the Public ID unique, and just use the normalized file name -> default = true
       />
+        {uploadedTrack &&
+          <form onSubmit={handleSubmit}>
+            <h3>Your track has been uploaded! Please fill out the form below and click submit to save to the database:</h3>
+            <label htmlFor="title">Track Title:</label>
+            <input type="text" name="title" onChange={(event) => setTitle(event.target.value)}/><br></br>
+            <label htmlFor="artist">Track Artist:</label>
+            <input type="text" name="artist" onChange={(event) => setArtist(event.target.value)}/><br></br>
+            <input type="submit" value="Submit"/>
+          </form>
+        }
     </>
   )
 }

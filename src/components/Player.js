@@ -1,13 +1,13 @@
 import React from "react";
 import ReactAudioPlayer from 'react-audio-player';
 
-function Player() {
+function Player({ track }) {
     return (
-    <ReactAudioPlayer
-    src="http://res.cloudinary.com/duajhjs2k/video/upload/v1616199513/my_folder/z9pnjqcqrrhwetu9dolp.mp3"
-    autoPlay
-    controls
-    />
+        <ReactAudioPlayer
+            src={track.file_url}
+            autostart="false"
+            controls
+        />
     )
 }
 
