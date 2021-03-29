@@ -41,6 +41,12 @@ function App() {
   }
 
 
+  const updateTracks = id => {
+    const updatedTracks = tracks.filter((track) => track.id !== id)
+    setTracks(updatedTracks)
+  }
+
+
 //   function addPlaylist(newPlaylist) {
 //     const updatedPlaylists = [...playlists, newPlaylist]
 //     setPlaylists(updatedPlaylists);
@@ -51,7 +57,7 @@ function App() {
           <Header onChangePage={(page) => setPage(page)} handleChange={handleChange} searchTerm={searchTerm}/>
           <Switch>
               <Route path="/tracks">
-                  <Tracks tracks={tracks} searchTerm={searchTerm}/>
+                  <Tracks tracks={tracks} searchTerm={searchTerm} updateTracks={updateTracks}/>
               </Route>
               <Route path="/login">
                   <Login setUser={setUser}/>

@@ -58,8 +58,9 @@ const UploadForm = ({ user, setTracks, tracks }) => {
 
   return (
     <>
-      <WidgetLoader /> // add to top of file. Only use once.  
+      <WidgetLoader />  
       <Widget
+      // eslint-disable-next-line
         sources={['local']} // set the sources available for uploading -> by default
         // all sources are available. More information on their use can be found at 
         // https://cloudinary.com/documentation/upload_widget#the_sources_parameter
@@ -75,9 +76,9 @@ const UploadForm = ({ user, setTracks, tracks }) => {
               color: 'white',
               border: 'none',
               width: '120px',
-              backgroundColor: 'green',
+              backgroundColor: 'black',
               borderRadius: '4px',
-              height: '25px'
+              height: '25px',
             }} // inline styling only or style id='cloudinary_upload_button'
         folder={'my_folder'} // set cloudinary folder name to send file
         cropping={false} // set ability to crop images -> default = true
