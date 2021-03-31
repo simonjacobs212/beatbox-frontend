@@ -8,17 +8,41 @@ const UploadForm = ({ user, setTracks, tracks }) => {
   const history = useHistory()
   const [title, setTitle] = useState("")
   const [artist, setArtist] = useState("")
-  const tempo = "140"
-
+  const [tempo, setTempo] = useState("")
+  const [key, setKey] = useState("")
   const [uploadedTrack, setUploadedTrack] = useState(false)
 
   const successCallBack = data => {
       setUploadedTrack(data.info.url)
-      console.log(uploadedTrack)
+      fetchTempo(data.info.url)
+      fetchKey(data.info.url)
   }
 
   const failureCallBack = _ => {
       console.log("You fucked up")
+  }
+
+
+  const fetchTempo = url => {
+    var accessId = "8622af9b-8f4b-4a14-8e90-a41069e58dee";
+    var fetchUrl = "https://api.sonicAPI.com/analyze/tempo?" + `access_id=${accessId}` + `&blocking=true` + `&format=json` + `&input_file=${url}`
+
+    //https://api.sonicAPI.com/analyze/tempo?access_id=8622af9b-8f4b-4a14-8e90-a41069e58dee&blocking=true&format=json&input_file=http://res.cloudinary.com/duajhjs2k/video/upload/v1616701480/my_folder/xb6jai86fxs2lagtkqdg.mp3
+
+    fetch(fetchUrl)
+    .then(r => r.json())
+    .then(data => setTempo(data.auftakt_result.overall_tempo))
+}
+
+  const fetchKey = url => {
+    var accessId = "8622af9b-8f4b-4a14-8e90-a41069e58dee";
+    var fetchUrl = "https://api.sonicAPI.com/analyze/key?" + `access_id=${accessId}` + `&blocking=true` + `&format=json` + `&input_file=${url}`
+
+    //https://api.sonicAPI.com/analyze/tempo?access_id=8622af9b-8f4b-4a14-8e90-a41069e58dee&blocking=true&format=json&input_file=http://res.cloudinary.com/duajhjs2k/video/upload/v1616701480/my_folder/xb6jai86fxs2lagtkqdg.mp3
+
+    fetch(fetchUrl)
+    .then(r => r.json())
+    .then(data => setKey(data.tonart_result.key))
   }
 
   const addNewTrack = track => {
@@ -31,8 +55,8 @@ const UploadForm = ({ user, setTracks, tracks }) => {
 
     const newTrack = {
       user_id: user.id,
-      tempo: tempo,
-      key: "",
+      tempo: Math.round(tempo).toPrecision(2),
+      key: key,
       title: title,
       artist: artist,
       file_url: uploadedTrack,

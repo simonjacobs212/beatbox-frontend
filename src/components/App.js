@@ -42,7 +42,7 @@ function App() {
 
 
   const updateTracks = id => {
-    const updatedTracks = tracks.filter((track) => track.id !== id)
+    const updatedTracks = tracks.filter((track) => track.id != id)
     setTracks(updatedTracks)
   }
 

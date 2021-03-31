@@ -3,15 +3,19 @@ import Select from 'react-select';
 import TrackList from './TrackList';
 
 function Playlist({ playlists, user, searchTerm }) { 
-    console.log(playlists)
-    const [playlist, setPlaylist] = useState(false)
+    const [playlist, setPlaylist] = useState(null)
+    console.log("selected playlist",playlist)
 
     const handleChange = playlist => {
         setPlaylist(playlist)
     }
 
     const addTrack = trackObj => {
-        const updatedPlaylist = playlist.tracks.push(trackObj)
+        console.log(trackObj.track)
+        const updatedPlaylist = {
+            ...playlist,
+            tracks: [...playlist.tracks, trackObj.track]
+        }
         setPlaylist(updatedPlaylist)
     }
 
@@ -26,9 +30,9 @@ function Playlist({ playlists, user, searchTerm }) {
     
     return  (
         <div>
-        <Select options={playListOptions} onChange={(playlist) => handleChange(playlist)}/>
+        <Select options={playListOptions} onChange={(playlist) => handleChange(playlist)} value={playlist && playlist.label}/>
         {playlist && 
-            <TrackList tracks={playlist.tracks} playlists={playlists} selected={playlist} user={user} addTrack={addTrack} searchTerm={searchTerm}/>
+            <TrackList tracks={playlist.tracks} playlists={playlists} playlist={playlist} user={user} searchTerm={searchTerm} setPlaylist={setPlaylist} addTrack={addTrack}/>
         }
         </div>
     )

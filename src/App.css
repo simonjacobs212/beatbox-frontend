@@ -22,6 +22,7 @@ code {
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
+  margin: auto;
 }
 
 .row.content {height: 450px}
@@ -183,4 +184,26 @@ a.socialIcon:hover,
   justify-content: center;
   align-items: center;
   border: 2px dashed grey;
+}
+
+.player {
+  border: 2px solid #2ecc71;
+  background-color: black;
+  width: 500px;
+  padding: .5rem;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.details {
+  color: #999292;
+}
+
+.container-fluid .navbar-brand {
+  color: #2ecc71
+}
+
+.navbar-nav .navbar-right {
+  color: #2ecc71
 }
